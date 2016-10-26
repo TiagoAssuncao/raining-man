@@ -13,11 +13,11 @@ world.add(shot)
 
 @listen('long-press', 'up')
 def increase_drag():
-    player.k = 10
+    shot.k = 10
 
 @listen('key-up', 'up')
 def decrease_drag():
-    player.k = 1.05
+    shot.k = 1.05
 
 
 @listen('key-down', 'x')
