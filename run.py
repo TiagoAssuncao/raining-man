@@ -2,6 +2,7 @@ from FGAme import *
 from math import sqrt
 from boy import *
 from shot import Shot
+import random
 
 world.add.margin(200, -500)
 world.gravity = (0, 10)
@@ -26,7 +27,10 @@ def exit_game():
 
 def update():
     shot.update()
-
+    teste = shot.vel[1]
+    if player.body.vel[1] > 0:
+    	print("GAME OVER")
+  
 #world.add(player)
 
 
