@@ -3,8 +3,9 @@ import random
 
 class Shot(AABB):
 
-    def __init__(self, pos=(200, 0)):
-        super().__init__(shape=(100, 50),mass=100, pos=pos, vel=(0, 100))
+    def __init__(self, pos=(200, -10)):
+        super().__init__(shape=(100, 50),mass=100, pos=pos, vel=(0, 50))
+        self.body = world.add(self)
         self.k = 0.1
 
     def update(self):
@@ -18,7 +19,3 @@ class Shot(AABB):
         self.vel = (speed_x, speed_y)
 
         #print(self.vel, self.pos)
-        if(self.pos[1] > 700 or self.pos[1] < -50):
-            self.shape = (400, 50)
-            x = random.randint(200, 400)
-            self.pos = (x, 0)
