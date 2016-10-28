@@ -6,7 +6,7 @@ class Shot(AABB):
     def __init__(self, pos=(200, -10)):
         super().__init__(shape=(100, 50),mass=100, pos=pos, vel=(0, 50))
         self.body = world.add(self)
-        self.k = 0.1
+        self.k = 0.05
 
     def update(self):
         x, y = self.vel
