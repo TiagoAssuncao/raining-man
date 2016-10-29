@@ -3,7 +3,7 @@ import random
 
 class Shot(AABB):
 
-    def __init__(self, pos=(200, -10)):
+    def __init__(self, pos=(400, -10)):
         super().__init__(shape=(100, 50),mass=10000, pos=pos, vel=(0, 50))
         self.body = world.add(self)
         self.k = 0.05
