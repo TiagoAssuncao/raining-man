@@ -22,16 +22,15 @@ def randomize():
 		global count
 		count = count + 1
 		randomizer = random.randint(-100, 100)
-		shot.x = randomizer + random.randint(250, 350)
+		shot.x = randomizer + random.randint(300, 500)
 		shot.y = shot.y + random.randint(-70, -50) # TO NOT GET TOGETHER
 		shot_list.append(shot)
 		shot.vel = (0, 10 + 10*count)
-		print(shot.vel)
 
 @listen('long-press', 'up')
 def increase_drag():
 	for shot in shot_list:
-		shot.k = 1.05
+		shot.k = 100	
 
 @listen('long-press', 'left', dx=-2)
 @listen('long-press', 'right', dx=2)
@@ -49,9 +48,11 @@ def exit_game():
 
 
 timer = 0 # GAME TIMER
+auxiliar_k = 0
 @listen ('frame-enter')
 def update():
 	global timer
+	global auxiliar_k
 	if timer >= 100: # TIME TO SPAWN
 		timer = 0
 		randomize()
@@ -60,7 +61,6 @@ def update():
 		shot.update()
 
 		if shot.pos[1] > 600:
-			print ("REMOVING OBJECT")
 			shot_list.remove(shot)
 			world.remove(shot)
 
@@ -70,7 +70,9 @@ def update():
 		exit()
 
 	# TIMER INCREASING DEPENDS ON K VALUE
-	if (shot_list[0].k) == 0.1:
+	if not shot_list:
+		timer += 1
+	elif (shot_list[0].k) == 0.1:
 		timer += 1
 	else: # SLOW DOWN THE TIME
 		timer += 0.5
