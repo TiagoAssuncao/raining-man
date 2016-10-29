@@ -1,6 +1,7 @@
 from FGAme import *
 from math import sqrt
 import pygame
+from pygame.locals import *
 from boy import *
 from shot import Shot
 import random
@@ -16,6 +17,8 @@ shot_list = []
 shot = Shot() # INITIAL SHOT
 shot_list.append(shot)
 count = 0
+BASE_K = 1.05
+
 
 pygame.mixer.pre_init(44100, 16, 2, 4096)
 pygame.init()
@@ -48,7 +51,7 @@ def move_p1(dx):
 @listen('key-up', 'up')
 def decrease_drag():
     for shot in shot_list:
-        shot.k = 1.05
+        shot.k = BASE_K
 
 @listen('key-down', 'x')
 def exit_game():
@@ -61,7 +64,7 @@ timer = 0 # GAME TIMER
 def update():
     global timer
 
-    if timer >= 100: # TIME TO SPAWN
+    if timer >= 130: # TIME TO SPAWN
         timer = 0
         randomize()
 
@@ -83,9 +86,9 @@ def update():
     # TIMER INCREASING DEPENDS ON K VALUE
     if not shot_list:
         timer += 1
-    elif (shot_list[0].k) == 0.1:
+    elif (shot_list[0].k) == BASE_K:
         timer += 1
     else: # SLOW DOWN THE TIME
         timer += 0.5
-
-run()
+ 
+run() 
