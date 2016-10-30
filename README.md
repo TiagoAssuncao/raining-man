@@ -8,6 +8,8 @@ While the boy is in free fall, the player needs to avoid the
 obstacles. The boy has an umbrella that can be used for a little
 time to slow down.
 
+Actual Version of the game using FGAme
+
 ![Raining Main img](https://raw.githubusercontent.com/TiagoAssuncao/raining-man/adding_hooks/images/firstversion.png)
 
 ## Technology Stack
