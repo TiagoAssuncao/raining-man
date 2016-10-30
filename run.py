@@ -12,7 +12,7 @@ BASE_K = 1.05
 RECOVER_INTERVAL = 150
 TIME_TO_EXAUST = 200
 SPAWN_TIME = 130
-SCREEN_END = 0
+SCREEN_END = -10
 
 world.add.margin(200, -500)
 world.gravity = (0, 30)
@@ -65,20 +65,22 @@ def update(screen):
 
     for shot in shot_list:
         screen.blit(shot.body_pygame.convert_alpha(), 
-                    shot.pos, [0, 0, 50, 50])
+                    shot.pos, [50, 50, 100, 80])
         shot.update()
 
         if shot.pos[1] < SCREEN_END:
             shot_list.remove(shot)
             world.remove(shot)
 
-    # END GAME
-    if PLAYER.body.vel[1] > 0:
-        print("GAME OVER")
-        dash_sound =  pygame.mixer.music.load("sounds/battle_theme.mp3")
-        dash_sound = pygame.mixer.music.play()
-        time.sleep(1)
-        exit()
+    # END GAME (NOT WORKING!)
+    for shot in shot_list:
+        if (abs((PLAYER.body.pos[1])-(shot.pos[1])) < 25) and \
+           (abs((PLAYER.body.pos[0])-(shot.pos[0])) < 10):
+            print("GAME OVER")
+            dash_sound =  pygame.mixer.music.load("sounds/battle_theme.mp3")
+            dash_sound = pygame.mixer.music.play()
+            time.sleep(1)
+            exit()
 
     global exaustion_timer
     global is_exaust
@@ -126,9 +128,11 @@ def render_game():
         pressed_keys = pygame.key.get_pressed()
 
         if pressed_keys[K_RIGHT]:
-            PLAYER.move_p1(2)
+            if PLAYER.body.pos[0] <= 575:
+                PLAYER.move_p1(2)
         elif pressed_keys[K_LEFT]:
-            PLAYER.move_p1(-2)
+            if PLAYER.body.pos[0] >= 200:
+                PLAYER.move_p1(-2)
         else:
             # Do nothing
             pass

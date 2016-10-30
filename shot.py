@@ -17,11 +17,13 @@ def randomize(shot_list):
 
 class Shot(AABB):
 
-    def __init__(self, pos=(400, 700)):
-        super().__init__(shape=(100, 50),mass=10000, pos=pos, vel=(0, 0), 
+    def __init__(self, pos=(400, 650)):
+        super().__init__(shape=(100, 50),mass=10000, pos=pos, vel=(0, 100), 
                          color='brown')
         self.body = world.add(self)
-        self.body_pygame = pygame.image.load('images/pedra.png')
+        self.body_pygame = pygame.image.load('images/pedra' + 
+                                             str(random.randint(1, 2))
+                                             +'.png')
         self.k = 1.05
 
     def update(self):
