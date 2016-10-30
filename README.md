@@ -10,7 +10,7 @@ time to slow down.
 
 Actual Version of the game using FGAme
 
-![Raining Main img](https://raw.githubusercontent.com/TiagoAssuncao/raining-man/adding_hooks/images/firstversion.png)
+![Raining Main img](https://raw.githubusercontent.com/TiagoAssuncao/raining-man/master/images/jogo.png)
 
 ## Technology Stack
 * Python 3.5
