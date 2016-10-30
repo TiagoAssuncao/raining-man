@@ -1,3 +1,7 @@
+"""
+	NOT USED YET.
+"""
+
 from FGAme import *
 import pygame
 from pygame.locals import *

@@ -9,10 +9,10 @@ import time
 
 #CONSTANTS
 BASE_K = 1.05
-RECOVER_INTERVAL = 200
-TIME_TO_EXAUST = 300
+RECOVER_INTERVAL = 150
+TIME_TO_EXAUST = 200
 SPAWN_TIME = 130
-SCREEN_END = 600
+SCREEN_END = 0
 
 world.add.margin(200, -500)
 world.gravity = (0, 30)
@@ -35,15 +35,12 @@ pygame.mixer.music.set_volume(0.8);
 @listen('long-press', 'up')
 def increase_drag():
     if not is_exaust:
+        PLAYER.body_pygame = pygame.image.load('images/2.png')
         for shot in shot_list:
-            shot.k = 100    
+            shot.k = 100
+    else:
+        PLAYER.body_pygame = pygame.image.load('images/1.png')
 
-@listen('long-press', 'left', dx=-2)
-@listen('long-press', 'right', dx=2)
-def move_p1(dx):
-        PLAYER.body.move(dx, 0)
-
-@listen('key-up', 'up')
 def decrease_drag():
     for shot in shot_list:
         shot.k = BASE_K
@@ -59,9 +56,7 @@ timer = 0 # GAME TIMER
 exaustion_timer = 0
 recover_timer = 0
 
-
-@listen ('frame-enter')
-def update():
+def update(screen):
     global timer
 
     if timer >= SPAWN_TIME:
@@ -69,9 +64,11 @@ def update():
         randomize(shot_list)
 
     for shot in shot_list:
+        screen.blit(shot.body_pygame.convert_alpha(), 
+                    shot.pos, [0, 0, 50, 50])
         shot.update()
 
-        if shot.pos[1] > SCREEN_END:
+        if shot.pos[1] < SCREEN_END:
             shot_list.remove(shot)
             world.remove(shot)
 
@@ -82,7 +79,6 @@ def update():
         dash_sound = pygame.mixer.music.play()
         time.sleep(1)
         exit()
-
 
     global exaustion_timer
     global is_exaust
@@ -95,7 +91,6 @@ def update():
         timer += 1
         if exaustion_timer >= TIME_TO_EXAUST:
             recover_timer += 1
-            print (recover_timer)
             if recover_timer > RECOVER_INTERVAL:
                 exaustion_timer = 0
                 is_exaust = False
@@ -118,31 +113,37 @@ def render_game():
     clock = pygame.time.Clock()
     while True:
         screen.blit(background, (200, 0))
-        auxiliar = PLAYER.body_pygame.convert_alpha()
-        screen.blit(auxiliar, (400, 80),PLAYER.rect)
+        screen.blit(PLAYER.body_pygame.convert_alpha(), 
+                    PLAYER.position,PLAYER.rect)
 
+        update(screen)
 
         for event in pygame.event.get():
             if event.type == QUIT:
                 exit()
 
 
-        #Habilita as teclas para o controle
         pressed_keys = pygame.key.get_pressed()
-        #gravity_influence(PacBum)
 
         if pressed_keys[K_RIGHT]:
-            move_p1(2)
+            PLAYER.move_p1(2)
         elif pressed_keys[K_LEFT]:
-            move_p1(-2)
+            PLAYER.move_p1(-2)
+        else:
+            # Do nothing
+            pass
 
         if pressed_keys[K_UP]:
             increase_drag()
-        elif not pressed_keys[K_UP]:
+        elif not pressed_keys[K_UP] or is_exaust:
+            PLAYER.body_pygame = pygame.image.load('images/1.png')
             decrease_drag()
+        else:
+            # Do nothing
+            pass
 
         pygame.display.update()
-        time_passed = clock.tick(30)
+        time_passed = clock.tick(60)
 
 
 render_game()
