@@ -3,7 +3,7 @@ from math import sqrt
 import pygame
 from pygame.locals import *
 from boy import *
-from shot import Shot
+from shot import Shot, randomize
 import random
 import time
 
@@ -24,7 +24,6 @@ shot_list = []
 shot = Shot() # INITIAL SHOT
 shot_list.append(shot)
 count = 0
-
 is_exaust = False
 
 pygame.mixer.pre_init(44100, 16, 2, 4096)
@@ -32,18 +31,6 @@ pygame.init()
 main_sound = pygame.mixer.music.load("sounds/sound-adventure.mp3")
 main_sound = pygame.mixer.music.play()
 pygame.mixer.music.set_volume(0.8);
-
-
-def randomize():
-    for i in range(random.randint(1, 2)):
-        shot = Shot()
-        global count
-        count = count + 1
-        randomizer = random.randint(-100, 100)
-        shot.x = randomizer + random.randint(300, 500)
-        shot.y = shot.y + random.randint(-70, -50) # TO NOT GET TOGETHER
-        shot_list.append(shot)
-        shot.vel = (0, 10 + 10*count)
 
 @listen('long-press', 'up')
 def increase_drag():
@@ -79,7 +66,7 @@ def update():
 
     if timer >= SPAWN_TIME:
         timer = 0
-        randomize()
+        randomize(shot_list)
 
     for shot in shot_list:
         shot.update()
@@ -122,4 +109,40 @@ def update():
         else:
             exaustion_timer += 1
  
-run() 
+
+def render_game():
+    pygame.font.init()
+    screen = pygame.display.set_mode((800, 600), 0, 32)
+    background = pygame.image.load('images/background.png').convert()
+
+    clock = pygame.time.Clock()
+    while True:
+        screen.blit(background, (200, 0))
+        auxiliar = PLAYER.body_pygame.convert_alpha()
+        screen.blit(auxiliar, (400, 80),PLAYER.rect)
+
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                exit()
+
+
+        #Habilita as teclas para o controle
+        pressed_keys = pygame.key.get_pressed()
+        #gravity_influence(PacBum)
+
+        if pressed_keys[K_RIGHT]:
+            move_p1(2)
+        elif pressed_keys[K_LEFT]:
+            move_p1(-2)
+
+        if pressed_keys[K_UP]:
+            increase_drag()
+        elif not pressed_keys[K_UP]:
+            decrease_drag()
+
+        pygame.display.update()
+        time_passed = clock.tick(30)
+
+
+render_game()

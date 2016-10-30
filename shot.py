@@ -1,10 +1,25 @@
 from FGAme import *
 import random
 
+
+count = 0
+
+def randomize(shot_list):
+    for i in range(random.randint(1, 2)):
+        shot = Shot()
+        global count
+        count = count + 1
+        randomizer = random.randint(-100, 100)
+        shot.x = randomizer + random.randint(300, 500)
+        shot.y = shot.y + random.randint(-70, -50) # TO NOT GET TOGETHER
+        shot_list.append(shot)
+        shot.vel = (0, 10 + 10*count)
+
 class Shot(AABB):
 
     def __init__(self, pos=(400, -100)):
-        super().__init__(shape=(100, 50),mass=10000, pos=pos, vel=(0, 0))
+        super().__init__(shape=(100, 50),mass=10000, pos=pos, vel=(0, 0), 
+                         color='brown')
         self.body = world.add(self)
         self.k = 1.05
 
