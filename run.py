@@ -24,6 +24,7 @@ shot_list = []
 shot = Shot() # INITIAL SHOT
 shot_list.append(shot)
 count = 0
+points = 0
 is_exaust = False
 
 pygame.mixer.pre_init(44100, 16, 2, 4096)
@@ -56,7 +57,7 @@ timer = 0 # GAME TIMER
 exaustion_timer = 0
 recover_timer = 0
 
-def update(screen):
+def update(screen, text):
     global timer
 
     if timer >= SPAWN_TIME:
@@ -71,6 +72,22 @@ def update(screen):
         if shot.pos[1] < SCREEN_END:
             shot_list.remove(shot)
             world.remove(shot)
+            global points
+            global count
+            count = count + 2
+            points = points + 10 + count
+            string_points = "%05d" % (points)
+
+            point_label = text.get('point').render(
+                    string_points,
+                    1,
+                    text.get('black'))
+
+            screen.fill(text.get('white'))
+
+            # render text
+            screen.blit(text.get('tittle'), (10, 50))
+            screen.blit(point_label, (10, 80))
 
     def colision():
         if abs((PLAYER.body.pos[1])-(shot.pos[1])) < 20:
@@ -119,13 +136,38 @@ def render_game():
     screen = pygame.display.set_mode((800, 600), 0, 32)
     background = pygame.image.load('images/background.png').convert()
 
+    # initialize font;
+    title_font = pygame.font.SysFont("monospace", 25)
+    point_font = pygame.font.SysFont("monospace", 15)
+    
+    #define colors
+    WHITE = (255,255,255)
+    BLACK = (0,0,0)
+
+    #define text
+    title_label = title_font.render("Raining Man", 1, BLACK)
+    point_label = point_font.render("00000", 1, BLACK)
+
+    screen.fill(WHITE)
+
+    # render text
+    screen.blit(title_label, (10, 50))
+    screen.blit(point_label, (10, 80))
+
+    text = {
+            'white': WHITE,
+            'black': BLACK,
+            'tittle': title_label,
+            'point': point_font,
+            }
+
     clock = pygame.time.Clock()
     while True:
         screen.blit(background, (200, 0))
         screen.blit(PLAYER.body_pygame.convert_alpha(), 
                     PLAYER.position,PLAYER.rect)
 
-        update(screen)
+        update(screen, text)
 
         for event in pygame.event.get():
             if event.type == QUIT:
