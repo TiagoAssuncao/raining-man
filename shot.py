@@ -21,9 +21,7 @@ class Shot(AABB):
         super().__init__(shape=(100, 50),mass=10000, pos=pos, vel=(0, 100), 
                          color='brown')
         self.body = world.add(self)
-        self.body_pygame = pygame.image.load('images/pedra' + 
-                                             str(random.randint(1, 2))
-                                             +'.png')
+        self.body_pygame = pygame.image.load('images/pedra1.png')
         self.k = 1.05
 
     def update(self):

@@ -72,10 +72,17 @@ def update(screen):
             shot_list.remove(shot)
             world.remove(shot)
 
-    # END GAME (NOT WORKING!)
+    def colision():
+        if abs((PLAYER.body.pos[1])-(shot.pos[1])) < 20:
+            if ((PLAYER.body.pos[0])-(shot.pos[0])) > -25:
+                if ((PLAYER.body.pos[0])-(shot.pos[0])) < 100:
+                    return True
+
+        return False
+
     for shot in shot_list:
-        if (abs((PLAYER.body.pos[1])-(shot.pos[1])) < 25) and \
-           (abs((PLAYER.body.pos[0])-(shot.pos[0])) < 10):
+        # END GAME (WORKING!!!!)
+        if colision():
             print("GAME OVER")
             dash_sound =  pygame.mixer.music.load("sounds/battle_theme.mp3")
             dash_sound = pygame.mixer.music.play()
