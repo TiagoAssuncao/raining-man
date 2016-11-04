@@ -59,8 +59,10 @@ setup(
 
         entry_points={
             'console_scripts': [
-                'raning_man=raining_man.src.raining_man.run:render_game',
-                'pet_update=pet.pet_update:pet_update',
+                'raining_man0=raining_main.src.raining_man.run:render_game',
+                'raining_man1=src.raining_man.run:render_game',
+                'raining_man2=raining_man.run:render_game',
+                'raining_man3=run:render_game',
                 ],
             },
         )
