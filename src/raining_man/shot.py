@@ -1,5 +1,6 @@
 from FGAme import *
 import random
+import os
 import pygame
 
 count = 0
@@ -21,7 +22,10 @@ class Shot(AABB):
         super().__init__(shape=(100, 50),mass=10000, pos=pos, vel=(0, 100), 
                          color='brown')
         self.body = world.add(self)
-        self.body_pygame = pygame.image.load('images/pedra1.png')
+
+        _ROOT = os.path.abspath(os.path.dirname(__file__))
+        absolute_image_path = os.path.join(_ROOT, 'images/pedra1.png')
+        self.body_pygame = pygame.image.load(absolute_image_path)
         self.k = 1.05
 
     def update(self):

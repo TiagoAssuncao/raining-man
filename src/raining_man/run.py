@@ -2,8 +2,8 @@ from FGAme import *
 from math import sqrt
 import pygame
 from pygame.locals import *
-from boy import *
-from shot import Shot, randomize
+from raining_man.boy import *
+from raining_man.shot import Shot, randomize
 import random
 import time
 
@@ -29,17 +29,24 @@ is_exaust = False
 
 pygame.mixer.pre_init(44100, 16, 2, 4096)
 pygame.init()
-main_sound = pygame.mixer.music.load("sounds/sound-adventure.mp3")
+
+_ROOT = os.path.abspath(os.path.dirname(__file__))
+
+absolute_image_path = os.path.join(_ROOT, 'sounds/sound-adventure.mp3')
+main_sound = pygame.mixer.music.load(absolute_image_path)
 main_sound = pygame.mixer.music.play()
 pygame.mixer.music.set_volume(0.8);
 
 @listen('long-press', 'up')
 def increase_drag():
     if not is_exaust:
-        PLAYER.body_pygame = pygame.image.load('images/2.png')
+        _ROOT = os.path.abspath(os.path.dirname(__file__))
+        absolute_image_path = os.path.join(_ROOT, 'images/2.png')
         for shot in shot_list:
             shot.k = 100
     else:
+        _ROOT = os.path.abspath(os.path.dirname(__file__))
+        absolute_image_path = os.path.join(_ROOT, 'images/1.png')
         PLAYER.body_pygame = pygame.image.load('images/1.png')
 
 def decrease_drag():
@@ -101,7 +108,9 @@ def update(screen, text):
         # END GAME (WORKING!!!!)
         if colision():
             print("GAME OVER")
-            dash_sound =  pygame.mixer.music.load("sounds/battle_theme.mp3")
+            _ROOT = os.path.abspath(os.path.dirname(__file__))
+            absolute_image_path = os.path.join(_ROOT, 'sounds/battle_theme.mp3')
+            dash_sound =  pygame.mixer.music.load(absolute_image_path)
             dash_sound = pygame.mixer.music.play()
             time.sleep(1)
             exit()
@@ -134,7 +143,9 @@ def update(screen, text):
 def render_game():
     pygame.font.init()
     screen = pygame.display.set_mode((800, 600), 0, 32)
-    background = pygame.image.load('images/background.png').convert()
+    _ROOT = os.path.abspath(os.path.dirname(__file__))
+    absolute_image_path = os.path.join(_ROOT, 'images/background.png')
+    background = pygame.image.load(absolute_image_path).convert()
 
     # initialize font;
     title_font = pygame.font.SysFont("monospace", 25)
@@ -189,7 +200,9 @@ def render_game():
         if pressed_keys[K_UP]:
             increase_drag()
         elif not pressed_keys[K_UP] or is_exaust:
-            PLAYER.body_pygame = pygame.image.load('images/1.png')
+            _ROOT = os.path.abspath(os.path.dirname(__file__))
+            absolute_image_path = os.path.join(_ROOT, 'images/2.png')
+            PLAYER.body_pygame = pygame.image.load(absolute_image_path)
             decrease_drag()
         else:
             # Do nothing

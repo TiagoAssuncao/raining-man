@@ -18,8 +18,8 @@ meta = '''# Automatically created. Please do not edit.
 __version__ = '%s'
 __author__ = 'Gustavo Lopes de Brito'
 ''' % version
-with open(path, 'w') as F:
-    F.write(meta)
+# with open(path, 'w') as F:
+#     F.write(meta)
 
 setup(
         # Basic info
@@ -31,7 +31,6 @@ setup(
         description='ITS RAINING MAN!',
         long_description=codecs.open('README.rst', 'rb', 'utf8').read(),
 
-        # Classifiers (see https://pypi.python.org/pypi?%3Aaction=list_classifiers)
         classifiers=[
             'Development Status :: 3 - Alpha',
             'License :: OSI Approved :: GNU General Public License (GPL)',
@@ -45,6 +44,12 @@ setup(
         # Packages and dependencies
         package_dir={'': 'src'},
         packages=find_packages('src'),
+        include_package_data=True,
+        package_data={
+            'raining_man.images' : ['*.png'],
+            'raining_man.sounds' : ['*.mp3']
+            },
+
         install_requires=[
             ],
         extras_require={
@@ -54,15 +59,12 @@ setup(
             },
 
         # Other configurations
-        zip_safe=False,
+        # zip_safe=False,
         platforms='any',
 
         entry_points={
             'console_scripts': [
-                'raining_man0=raining_main.src.raining_man.run:render_game',
-                'raining_man1=src.raining_man.run:render_game',
-                'raining_man2=raining_man.run:render_game',
-                'raining_man3=run:render_game',
+                'raining_man=raining_man.run:render_game',
                 ],
             },
         )
