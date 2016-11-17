@@ -38,5 +38,3 @@ class Shot(AABB):
         pos_y -= speed_y * 1/60
         self.vel = (speed_x, speed_y)
         self.pos = pos_x, pos_y
-
-        #print(self.vel, self.pos)
