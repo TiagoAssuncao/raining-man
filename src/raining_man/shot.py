@@ -3,18 +3,17 @@ import random
 import os
 import pygame
 
-count = 0
 
-def randomize(shot_list):
-    for i in range(random.randint(1, 2)):
+def randomize(shot_list, count, world_vel):
+    for i in range(random.randint(1, 3)):
         shot = Shot()
-        global count
         count = count + 1
         randomizer = random.randint(-100, 100)
-        shot.x = randomizer + random.randint(300, 400)
+        shot.x = randomizer + random.randint(270, 420)
         shot.y = shot.y + random.randint(-80, -50) # TO NOT GET TOGETHER
         shot_list.append(shot)
-        shot.vel = (0, 10 + 10*count)
+        print(world_vel)
+        shot.vel = world_vel
 
 class Shot(AABB):
 

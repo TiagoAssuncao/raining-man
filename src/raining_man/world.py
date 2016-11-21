@@ -25,6 +25,7 @@ class RainingWorld(World):
         self.timer = 0 # GAME TIMER
         self.exaustion_timer = 0
         self.recover_timer = 0
+        self.vel = (0, 100)
 
     def add_raining_world(self):
         """TODO: Docstring for add_raining_world.
@@ -110,9 +111,11 @@ class RainingWorld(World):
                     self.player.move_p1(-2)
 
             if pressed_keys[K_UP]:
-                increase_drag()
-            elif not pressed_keys[K_UP] or is_exaust:
+                self.increase_drag()
                 absolute_image_path = os.path.join(self.root, 'images/2.png')
+                self.player.body_pygame = pygame.image.load(absolute_image_path)
+            elif not pressed_keys[K_UP] or self.is_exaust:
+                absolute_image_path = os.path.join(self.root, 'images/1.png')
                 self.player.body_pygame = pygame.image.load(absolute_image_path)
                 self.decrease_drag()
 
@@ -123,7 +126,8 @@ class RainingWorld(World):
     def update(self, screen, text):
         if self.timer >= self.spawn_time:
             self.timer = 0
-            randomize(self.shot_list)
+            self.vel = (0, self.vel[1] + self.count)
+            randomize(self.shot_list, self.count, self.vel)
 
         for shot in self.shot_list:
             screen.blit(shot.body_pygame.convert_alpha(), 
@@ -132,10 +136,9 @@ class RainingWorld(World):
 
             if shot.pos[1] < self.screen_end:
                 self.shot_list.remove(shot)
-                self.remove(shot)
-                count = count + 2
-                points = points + 10 + count
-                string_points = "%05d" % (points)
+                self.count = self.count + 2
+                self.points = self.points + 10 + self.count
+                string_points = "%05d" % (self.points)
 
                 point_label = text.get('point').render(
                         string_points,
@@ -176,16 +179,26 @@ class RainingWorld(World):
                 self.recover_timer += 1
                 if self.recover_timer > self.recover_interval:
                     self.exaustion_timer = 0
-                    is_exaust = False
+                    self.is_exaust = False
                     self.recover_timer = 0
         else: # SLOW DOWN THE TIME
             self.timer += 0.5
             if self.exaustion_timer >= self.time_to_exaust:
                 for shot in self.shot_list:
                     shot.k = self.base_k
-                is_exaust = True
+                self.is_exaust = True
             else:
                 self.exaustion_timer += 1
+
+    @listen('long-press', 'up')
+    def increase_drag(self):
+        if not self.is_exaust:
+            absolute_image_path = os.path.join(self.root, 'images/2.png')
+            for shot in self.shot_list:
+                shot.k = 100
+        else:
+            absolute_image_path = os.path.join(self.root, 'images/1.png')
+            self.player.body_pygame = pygame.image.load(absolute_image_path)
 
     def decrease_drag(self):
         for shot in self.shot_list:
