@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from sys import exit
-from core import Media
+from .core import Media
 
 class Menu():
 

@@ -64,7 +64,7 @@ setup(
 
         entry_points={
             'console_scripts': [
-                'raining_man=raining_man.run:render_game',
+                'raining_man=raining_man.__main__:main',
                 ],
             },
         )

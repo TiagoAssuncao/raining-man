@@ -1,5 +1,5 @@
 from FGAme import *
-from core import Physics, Media
+from .core import Physics, Media
 
 class Shot(Circle):
     def __init__(self, pos=(400, 650)):
