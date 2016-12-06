@@ -11,7 +11,6 @@ class Shot(Circle):
         super().__init__(radius=50,mass=10000, pos=pos, vel=(0, 100), 
                          color='brown')
         self.body = world.add(self)
-
         self.body_pygame = Media.change_image('images/stone.png')
         self.k = 1.05
 

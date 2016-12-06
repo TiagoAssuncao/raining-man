@@ -3,6 +3,7 @@ from boy import Boy
 from shot import Shot
 from core import randomize, Media, Physics
 from pygame.locals import *
+from menu import *
 import pygame
 import os, time
 
@@ -59,7 +60,6 @@ class RainingWorld(World):
 		text = Media.define_text()
 		screen = pygame.display.set_mode((800, 600), 0, 32)
 		Media.start_text(screen)
-
 
 		clock = pygame.time.Clock()
 		while True:
@@ -132,7 +132,8 @@ class RainingWorld(World):
 				print("GAME OVER")
 				Media.change_music('sounds/battle_theme.mp3')
 				time.sleep(1)
-				exit()
+				main = Menu()
+				main.render()
 
 		
 		# TIMER INCREASING DEPENDS ON K VALUE
