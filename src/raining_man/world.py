@@ -63,7 +63,6 @@ class RainingWorld(World):
 	def render_game(self):
 		pygame.font.init()
 		background = Media.change_image('images/background.png')
-
 		text = Media.define_text()
 		screen = pygame.display.set_mode((800, 600), 0, 32)
 		Media.start_text(screen)
@@ -120,10 +119,6 @@ class RainingWorld(World):
 				self.points = self.points + 10 + self.count
 				string_points = "%05d" % (self.points)
 				Media.update_text(string_points, screen, text)
-
-		for shot in self.shot_list:
-			if Physics.colision(shot, self.player):
-				self.finish_game(screen)
 
 		if Physics.see_colision(self.shot_list, self.player):
 			game_over = Media.change_image("images/gameover.png")
