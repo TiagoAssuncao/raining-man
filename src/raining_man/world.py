@@ -12,7 +12,7 @@ class RainingWorld(World):
         self.base_k = 1.05
         self.recover_interval = 150
         self.time_to_exaust = 200
-        self.spawn_time = 130
+        self.spawn_time = 13000000
         self.screen_end = -10
         self.shot_list = []
         self.count = 0
@@ -35,7 +35,8 @@ class RainingWorld(World):
         self.gravity = (0, 30)
 
         self.player = Boy()
-        self.player.body.gravity = (0, 0)
+        self.player.gravity = (0, 0)
+        self.add(self.player)
         shot = Shot() # INITIAL SHOT
         self.shot_list.append(shot)
 
@@ -63,8 +64,10 @@ class RainingWorld(World):
         clock = pygame.time.Clock()
         while True:
             screen.blit(background, (200, 0))
+            diff = (self.player.width / 2, self.player.height / 2)
+            new_pos = self.player.pos - diff
             screen.blit(self.player.body_pygame.convert_alpha(), 
-                        self.player.position, self.player.rect)
+                        new_pos, self.player.rectangle)
 
             self.update(screen, text)
 
@@ -75,10 +78,10 @@ class RainingWorld(World):
             pressed_keys = pygame.key.get_pressed()
 
             if pressed_keys[K_RIGHT]:
-                if self.player.body.pos[0] <= 575:
+                if self.player.pos[0] <= 588:
                     self.player.move_p1(2)
             elif pressed_keys[K_LEFT]:
-                if self.player.body.pos[0] >= 200:
+                if self.player.pos[0] >= 215:
                     self.player.move_p1(-2)
 
             if pressed_keys[K_UP]:
@@ -99,8 +102,9 @@ class RainingWorld(World):
             randomize(self.shot_list, self.count, self.vel)
 
         for shot in self.shot_list:
+            new_pos = shot.pos - (shot.width / 2, shot.height / 2)
             screen.blit(shot.body_pygame.convert_alpha(), 
-                        shot.pos, [50, 50, 100, 80])
+                        new_pos)
             shot.update()
 
             if shot.pos[1] < self.screen_end:
@@ -111,9 +115,9 @@ class RainingWorld(World):
                 Media.update_text(string_points, screen, text)
 
         def colision():
-            if abs((self.player.body.pos[1])-(shot.pos[1])) < 20:
-                if ((self.player.body.pos[0])-(shot.pos[0])) > -25:
-                    if ((self.player.body.pos[0])-(shot.pos[0])) < 100:
+            if abs((self.player.pos[1])-(shot.pos[1])) < 20:
+                if ((self.player.pos[0])-(shot.pos[0])) > -25:
+                    if ((self.player.pos[0])-(shot.pos[0])) < 100:
                         return True
 
             return False

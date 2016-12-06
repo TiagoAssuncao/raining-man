@@ -29,6 +29,7 @@ class Physics(object):
         else:
             world.player.body_pygame = Media.change_image('images/1.png')
 
+    @listen('key-up', 'up')
     def decrease_drag(world):
         for shot in world.shot_list:
             shot.k = world.base_k
@@ -42,7 +43,6 @@ def randomize(shot_list, count, world_vel):
         shot.x = randomizer + random.randint(270, 420)
         shot.y = shot.y + random.randint(-80, -50) # TO NOT GET TOGETHER
         shot_list.append(shot)
-        print(world_vel)
         shot.vel = world_vel
 
 class Media():

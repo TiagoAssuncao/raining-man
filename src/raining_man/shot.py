@@ -8,7 +8,7 @@ from core import Physics, Media
 class Shot(AABB):
 
     def __init__(self, pos=(400, 650)):
-        super().__init__(shape=(100, 50),mass=10000, pos=pos, vel=(0, 100), 
+        super().__init__(shape=(154, 140),mass=10000, pos=pos, vel=(0, 100), 
                          color='brown')
         self.body = world.add(self)
 

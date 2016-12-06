@@ -4,11 +4,12 @@ import os
 from raining_man.images import *
 from core import Media
 
-class Boy:
+class Boy(AABB):
     def __init__(self):
-        self.body = world.add.aabb(shape=(30,80), pos=(400, 100), mass=500)
+        #self.body = world.add.aabb(shape=(30,30), pos=(400, 100), mass=500)
+        super().__init__(shape=(30, 30), pos=(400, 100), mass=500)
         self.body_pygame = Media.change_image('images/1.png')
-        self.rect = [0, 0, 60, 60]
+        self.rectangle = [0, 0, 60, 60]
         self.position = [400, 100]
         self.k = 1.05
 
@@ -17,4 +18,4 @@ class Boy:
 
     def move_p1(self, dx):
         self.position = [self.position[0] + dx, 100]
-        self.body.pos = self.position
+        self.pos = self.position
