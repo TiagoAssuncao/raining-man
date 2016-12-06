@@ -1,5 +1,3 @@
-from FGAme import *
-from math import sqrt
 from world import RainingWorld
 import pygame
 from pygame.locals import *
@@ -14,10 +12,7 @@ main_menu = Menu()
 main_menu.render() # PLayer will be stuck here until enter an option
 
 # Start the game objects
-
 world = RainingWorld()
 world.add_raining_world()
 world.start_sound()
-
-
 world.render_game()

@@ -1,12 +1,9 @@
 from FGAme import *
-import pygame
-import os
 from raining_man.images import *
 from core import Media
 
 class Boy(AABB):
     def __init__(self):
-        #self.body = world.add.aabb(shape=(30,30), pos=(400, 100), mass=500)
         super().__init__(shape=(30, 30), pos=(400, 100), mass=500)
         self.body_pygame = Media.change_image('images/1.png')
         self.rectangle = [0, 0, 60, 60]

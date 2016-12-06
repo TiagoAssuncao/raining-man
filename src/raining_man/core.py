@@ -2,6 +2,7 @@ import random
 import os
 import pygame
 from FGAme import *
+from pygame.locals import *
 
 class Physics(object):
 
@@ -33,6 +34,37 @@ class Physics(object):
     def decrease_drag(world):
         for shot in world.shot_list:
             shot.k = world.base_k
+
+    @staticmethod
+    def get_surface_rectangle(game_object):
+        width = game_object.body_pygame.get_width()	
+        height = game_object.body_pygame.get_height()
+
+        new_pos = game_object.pos - (game_object.width / 2, game_object.height / 2)
+
+        rect = Rect(new_pos[0], new_pos[1], width - 20, height)
+
+        return rect
+
+    @staticmethod
+    def colision(shot, player):
+        # SE o player ta entre a posição + 5 da pedra e entre
+        # a posição inferior verifica se colide em x.
+        shot_rect = Physics.get_surface_rectangle(shot)
+        player_rect = Physics.get_surface_rectangle(player)
+
+        if player_rect.colliderect(shot_rect):
+                return True
+
+        return False
+
+    @staticmethod
+    def see_colision(shot_list, player):
+        return_method = False
+        for shot in shot_list:
+            if Physics.colision(shot, player):
+                return_method = True
+        return return_method
 
 def randomize(shot_list, count, world_vel):
     for i in range(random.randint(1, 3)):
@@ -107,3 +139,31 @@ class Media():
         # render text
         screen.blit(title_label, (10, 50))
         screen.blit(point_label, (10, 80))
+
+class Timer(object):
+
+    """Docstring for Timer.
+    Class to manipule the time to make colosions and
+    count the time to exaust
+    """
+    @staticmethod
+    def count(world):
+        # TIMER INCREASING DEPENDS ON K VALUE
+        if not world.shot_list:
+            world.timer += 1
+        elif (world.shot_list[0].k) == world.base_k:
+            world.timer += 1
+            if world.exaustion_timer >= world.time_to_exaust:
+                world.recover_timer += 1
+                if world.recover_timer > world.recover_interval:
+                    world.exaustion_timer = 0
+                    world.is_exaust = False
+                    world.recover_timer = 0
+        else: # SLOW DOWN THE TIME
+            world.timer += 0.5
+            if world.exaustion_timer >= world.time_to_exaust:
+                for shot in world.shot_list:
+                    shot.k = world.base_k
+                world.is_exaust = True
+            else:
+                world.exaustion_timer += 1

@@ -1,12 +1,7 @@
 from FGAme import *
-import os
-import pygame
 from core import Physics, Media
 
-
-
 class Shot(Circle):
-
     def __init__(self, pos=(400, 650)):
         super().__init__(radius=50,mass=10000, pos=pos, vel=(0, 100), 
                          color='brown')
