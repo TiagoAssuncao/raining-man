@@ -1,10 +1,7 @@
-"""
-NOT USED YET.
-"""
-
 from FGAme import *
 from boy import Boy
-from shot import Shot, randomize
+from shot import Shot
+from core import randomize, Media, Physics
 from pygame.locals import *
 import pygame
 import os, time
@@ -21,7 +18,6 @@ class RainingWorld(World):
         self.count = 0
         self.points = 0
         self.is_exaust = False
-        self.root = os.path.abspath(os.path.dirname(__file__))
         self.timer = 0 # GAME TIMER
         self.exaustion_timer = 0
         self.recover_timer = 0
@@ -53,41 +49,16 @@ class RainingWorld(World):
         """
         pygame.mixer.pre_init(44100, 16, 2, 4096)
         pygame.init()
-        music_path = self.root + "/sounds/sound-adventure.mp3"
-        main_sound = pygame.mixer.music.load(music_path)
-        main_sound = pygame.mixer.music.play()
-        pygame.mixer.music.set_volume(0.8)
+        Media.change_music("sounds/sound-adventure.mp3")
 
     def render_game(self):
         pygame.font.init()
+        background = Media.change_image('images/background.png')
+
+        text = Media.define_text()
         screen = pygame.display.set_mode((800, 600), 0, 32)
-        absolute_image_path = os.path.join(self.root, 'images/background.png')
-        background = pygame.image.load(absolute_image_path).convert()
+        Media.start_text(screen)
 
-        # initialize font;
-        title_font = pygame.font.SysFont("monospace", 25)
-        point_font = pygame.font.SysFont("monospace", 15)
-        
-        #define colors
-        WHITE = (255,255,255)
-        BLACK = (0,0,0)
-
-        #define text
-        title_label = title_font.render("Raining Man", 1, BLACK)
-        point_label = point_font.render("00000", 1, BLACK)
-
-        screen.fill(WHITE)
-
-        # render text
-        screen.blit(title_label, (10, 50))
-        screen.blit(point_label, (10, 80))
-
-        text = {
-                'white': WHITE,
-                'black': BLACK,
-                'tittle': title_label,
-                'point': point_font,
-                }
 
         clock = pygame.time.Clock()
         while True:
@@ -111,13 +82,11 @@ class RainingWorld(World):
                     self.player.move_p1(-2)
 
             if pressed_keys[K_UP]:
-                self.increase_drag()
-                absolute_image_path = os.path.join(self.root, 'images/2.png')
-                self.player.body_pygame = pygame.image.load(absolute_image_path)
+                Physics.increase_drag(self)
+                self.player.body_pygame = Media.change_image('images/2.png')
             elif not pressed_keys[K_UP] or self.is_exaust:
-                absolute_image_path = os.path.join(self.root, 'images/1.png')
-                self.player.body_pygame = pygame.image.load(absolute_image_path)
-                self.decrease_drag()
+                self.player.body_pygame = Media.change_image('images/1.png')
+                Physics.decrease_drag(self)
 
             pygame.display.update()
             time_passed = clock.tick(60)
@@ -139,17 +108,7 @@ class RainingWorld(World):
                 self.count = self.count + 2
                 self.points = self.points + 10 + self.count
                 string_points = "%05d" % (self.points)
-
-                point_label = text.get('point').render(
-                        string_points,
-                        1,
-                        text.get('black'))
-
-                screen.fill(text.get('white'))
-
-                # render text
-                screen.blit(text.get('tittle'), (10, 50))
-                screen.blit(point_label, (10, 80))
+                Media.update_text(string_points, screen, text)
 
         def colision():
             if abs((self.player.body.pos[1])-(shot.pos[1])) < 20:
@@ -163,9 +122,7 @@ class RainingWorld(World):
             # END GAME (WORKING!!!!)
             if colision():
                 print("GAME OVER")
-                absolute_image_path = os.path.join(self.root, 'sounds/battle_theme.mp3')
-                dash_sound =  pygame.mixer.music.load(absolute_image_path)
-                dash_sound = pygame.mixer.music.play()
+                Media.change_music('sounds/battle_theme.mp3')
                 time.sleep(1)
                 exit()
 
@@ -190,16 +147,3 @@ class RainingWorld(World):
             else:
                 self.exaustion_timer += 1
 
-    @listen('long-press', 'up')
-    def increase_drag(self):
-        if not self.is_exaust:
-            absolute_image_path = os.path.join(self.root, 'images/2.png')
-            for shot in self.shot_list:
-                shot.k = 100
-        else:
-            absolute_image_path = os.path.join(self.root, 'images/1.png')
-            self.player.body_pygame = pygame.image.load(absolute_image_path)
-
-    def decrease_drag(self):
-        for shot in self.shot_list:
-            shot.k = self.base_k
