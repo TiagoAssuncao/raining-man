@@ -1,9 +1,9 @@
 from FGAme import *
-from boy import Boy
-from shot import Shot
-from core import randomize, Media, Physics, Timer
+from .boy import Boy
+from .shot import Shot
+from .core import randomize, Media, Physics, Timer
 from pygame.locals import *
-from menu import *
+from .menu import *
 import pygame
 import time
 
@@ -122,7 +122,7 @@ class RainingWorld(World):
 
 		if Physics.see_colision(self.shot_list, self.player):
 			game_over = Media.change_image("images/gameover.png")
-			screen.blit(game_over.convert_alpha(), (400, 300))
-			self.finish_game()
+			screen.blit(game_over.convert_alpha(), (300, 300))
+			self.finish_game(screen)
 
 		Timer.count(self)

@@ -68,7 +68,7 @@ class Physics(object):
 
 def randomize(shot_list, count, world_vel):
     for i in range(random.randint(1, 3)):
-        from shot import Shot
+        from .shot import Shot
         shot = Shot()
         count = count + 1
         randomizer = random.randint(-100, 100)

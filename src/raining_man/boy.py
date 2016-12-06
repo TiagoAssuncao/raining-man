@@ -1,6 +1,6 @@
 from FGAme import *
 from raining_man.images import *
-from core import Media
+from .core import Media
 
 class Boy(AABB):
     def __init__(self):
