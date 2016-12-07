@@ -24,7 +24,7 @@ __author__ = 'Gustavo Lopes de Brito'
 setup(
         # Basic info
         name='raining-man',
-        version=version,
+        version='0.1.55',
         author='Gustavo Lopes de Brito',
         author_email='gustavo.ldbrito@gmail.com',
         url='https://github.com/fis-jogos/ep1-rainining-man',
@@ -51,8 +51,10 @@ setup(
             },
 
         install_requires=[
+            'pgzero',
             'FGAme',
             'pygame',
+            'shelve2',
             ],
         extras_require={
             'dev': [
