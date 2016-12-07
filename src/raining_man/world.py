@@ -106,7 +106,6 @@ class RainingWorld(World):
 
             if pressed_keys[K_UP]:
                 Physics.increase_drag(self)
-                self.player.body_pygame = Media.change_image('images/2.png')
             elif not pressed_keys[K_UP] or self.is_exaust:
                 self.player.body_pygame = Media.change_image('images/1.png')
                 Physics.decrease_drag(self)

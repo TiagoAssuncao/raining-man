@@ -51,6 +51,7 @@ setup(
             },
 
         install_requires=[
+            'pgzero',
             'FGAme',
             'pygame',
             ],
