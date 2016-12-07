@@ -1,4 +1,5 @@
 import random
+import shelve
 import os
 import pygame
 from FGAme import *
@@ -89,17 +90,25 @@ class Media():
         dash_sound = pygame.mixer.music.play()
 
     @staticmethod
-    def update_text(string_points, screen, text):
+    def update_text(string_points, screen, text, best):
         point_label = text.get('point').render(
                 string_points,
                 1,
                 text.get('black'))
+        title_font = pygame.font.SysFont("monospace", 25)
+        point_font = pygame.font.SysFont("monospace", 15)
+
+        best_score_label = title_font.render("Best Score", 1, text.get('black'))
+        best_score_label_point = point_font.render(best, 1, text.get('black'))
+
 
         screen.fill(text.get('white'))
 
         # render text
         screen.blit(text.get('tittle'), (10, 50))
         screen.blit(point_label, (10, 80))
+        screen.blit(best_score_label, (10, 120))
+        screen.blit(best_score_label_point, (10, 150))
 
     @staticmethod
     def define_text():
@@ -118,7 +127,7 @@ class Media():
         return text
 
     @staticmethod
-    def start_text(screen):
+    def start_text(screen, best):
         # initialize font;
         title_font = pygame.font.SysFont("monospace", 25)
         point_font = pygame.font.SysFont("monospace", 15)
@@ -130,12 +139,36 @@ class Media():
         #define text
         title_label = title_font.render("Raining Man", 1, BLACK)
         point_label = point_font.render("00000", 1, BLACK)
+        best_score_label = title_font.render("Best Score", 1, BLACK)
+        best_score_label_point = point_font.render(best, 1, BLACK)
 
         screen.fill(WHITE)
 
         # render text
         screen.blit(title_label, (10, 50))
         screen.blit(point_label, (10, 80))
+        screen.blit(best_score_label, (10, 120))
+        screen.blit(best_score_label_point, (10, 150))
+
+    @staticmethod
+    def get_score():
+        _ROOT = os.path.abspath(os.path.dirname(__file__))
+        absolute_score_path = os.path.join(_ROOT, 'score.txt')
+        d = shelve.open(absolute_score_path)
+        try:
+            score = d['score']  
+        except:
+            d['score'] = 0 # thats all, now it is saved on disk.
+            score = 0
+        return score
+
+    @staticmethod
+    def save_score(score):
+        _ROOT = os.path.abspath(os.path.dirname(__file__))
+        absolute_score_path = os.path.join(_ROOT, 'score.txt')
+        d = shelve.open(absolute_score_path)
+        d['score'] = score
+        d.close()  
 
 class Timer(object):
 

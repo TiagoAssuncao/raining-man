@@ -10,6 +10,7 @@ class Menu():
         self.screen = pygame.display.set_mode((800,600), 0, 32)
         self.caption = pygame.display.set_caption("Main Menu")
         self.start_action = False
+        self.score = Media.get_score()
 
     def get_key_input(self):
         for event in pygame.event.get():

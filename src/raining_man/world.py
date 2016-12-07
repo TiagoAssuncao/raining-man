@@ -6,6 +6,7 @@ from pygame.locals import *
 from .menu import *
 import pygame
 import time
+import shelve
 
 def new_game():
     """
@@ -22,7 +23,7 @@ def new_game():
     world.render_game()
 
 class RainingWorld(World):
-    
+
     def __init__(self):
         super().__init__()
         self.base_k = 1.05
@@ -39,10 +40,16 @@ class RainingWorld(World):
         self.exaustion_timer = 0
         self.recover_timer = 0
         self.vel = (0, 100)
+        self.best_score = Media.get_score()
 
     def finish_game(self, screen):
         Media.change_music('sounds/battle_theme.mp3')
         time.sleep(1)
+
+        if self.points > self.best_score:
+            self.best_score = self.points
+        Media.save_score(self.best_score)
+
         new_game()
 
     def add_raining_world(self):
@@ -79,7 +86,8 @@ class RainingWorld(World):
         background = Media.change_image('images/background.png')
         text = Media.define_text()
         screen = pygame.display.set_mode((800, 600), 0, 32)
-        Media.start_text(screen)
+        best_score = "%05d" % (self.best_score)
+        Media.start_text(screen, best_score)
         self.caption = pygame.display.set_caption("Raining Man")
         clock = pygame.time.Clock()
         while True:
@@ -133,7 +141,8 @@ class RainingWorld(World):
                 self.count = self.count + 2
                 self.points = self.points + 10 + self.count
                 string_points = "%05d" % (self.points)
-                Media.update_text(string_points, screen, text)
+                string_best = "%05d" % (self.best_score)
+                Media.update_text(string_points, screen, text, string_best)
 
         if Physics.see_colision(self.shot_list, self.player):
             game_over = Media.change_image("images/gameover.png")
