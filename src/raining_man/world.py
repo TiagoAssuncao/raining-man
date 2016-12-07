@@ -7,6 +7,20 @@ from .menu import *
 import pygame
 import time
 
+def new_game():
+	"""
+		Creates the objects needed to run the game.
+	"""
+	# Menu objects
+	main_menu = Menu()
+	main_menu.render() # PLayer will be stuck here until enter an option
+	# Start the game objects
+	world = RainingWorld()
+	world = RainingWorld()
+	world.add_raining_world()
+	world.start_sound()
+	world.render_game()
+
 class RainingWorld(World):
     def __init__(self):
         super().__init__()
@@ -23,14 +37,11 @@ class RainingWorld(World):
         self.exaustion_timer = 0
         self.recover_timer = 0
         self.vel = (0, 100)
-        on('long-press', 'up').do(Physics.increase_drag, self)
-        on('long-press', 'up').do(Physics.decrease_drag, self)
 
     def finish_game(self, screen):
         Media.change_music('sounds/battle_theme.mp3')
         time.sleep(1)
-        menu = Menu()
-        menu.render()
+        new_game()
 
     def add_raining_world(self):
         """
@@ -123,7 +134,8 @@ class RainingWorld(World):
 
         if Physics.see_colision(self.shot_list, self.player):
             game_over = Media.change_image("images/gameover.png")
-            screen.blit(game_over.convert_alpha(), (300, 300))
+            screen.blit(game_over.convert_alpha(), (300, 300), \
+                                    game_over.get_rect())
             self.finish_game(screen)
 
         Timer.count(self)

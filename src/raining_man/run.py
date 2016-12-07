@@ -1,4 +1,4 @@
-from .world import RainingWorld
+from .world import new_game
 import pygame
 from pygame.locals import *
 from raining_man.shot import Shot
@@ -9,12 +9,4 @@ from .menu import *
 
 
 def start():
-    # Menu objects
-    main_menu = Menu()
-    main_menu.render() # PLayer will be stuck here until enter an option
-
-    # Start the game objects
-    world = RainingWorld()
-    world.add_raining_world()
-    world.start_sound()
-    world.render_game()
+    new_game()
