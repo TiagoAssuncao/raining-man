@@ -21,7 +21,6 @@ class Physics(object):
 
         return (speed_x, speed_y), (pos_x, pos_y)
 
-    @listen('long-press', 'up')
     def increase_drag(world):
         if not world.is_exaust:
             world.player.body_pygame = Media.change_image('images/2.png')
@@ -30,7 +29,6 @@ class Physics(object):
         else:
             world.player.body_pygame = Media.change_image('images/1.png')
 
-    @listen('key-up', 'up')
     def decrease_drag(world):
         for shot in world.shot_list:
             shot.k = world.base_k
@@ -71,8 +69,8 @@ def randomize(shot_list, count, world_vel):
         from .shot import Shot
         shot = Shot()
         count = count + 1
-        randomizer = random.randint(10, 90)
-        shot.x = 240 + (randomizer + (100 * (i)))
+        randomizer = random.randint(30, 70)
+        shot.x = 220 + (randomizer + (110 * (i)))
         shot.y = shot.y + random.randint(-80, -50) # TO NOT GET TOGETHER
         shot_list.append(shot)
         shot.vel = world_vel
