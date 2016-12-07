@@ -12,8 +12,8 @@ class Physics(object):
 
     def drag(shot):
         x, y = shot.vel
-        drag = abs(shot.k * (y ** 2))
-        a = (shot.mass * shot.gravity[1] - drag) / shot.mass
+        drag = shot.k * (y ** 2)
+        a = (abs(shot.mass * shot.gravity[1]) - drag) / shot.mass
         speed_x, speed_y = shot.vel
         speed_y += a * 1/60
         pos_x, pos_y = shot.pos
@@ -70,6 +70,7 @@ def randomize(shot_list, count, world_vel):
     for i in range(random.randint(1, 3)):
         from .shot import Shot
         shot = Shot()
+        #shot.k = shot_list[0].k
         count = count + 1
         randomizer = random.randint(10, 90)
         shot.x = 240 + (randomizer + (100 * (i)))

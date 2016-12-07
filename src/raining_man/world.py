@@ -28,8 +28,9 @@ class RainingWorld(World):
 		self.base_k = 1.05
 		self.recover_interval = 150
 		self.time_to_exaust = 200
-		self.spawn_time = 150
+		self.spawn_time = 130
 		self.screen_end = -10
+		self.gravity = (0, 30)
 		self.shot_list = []
 		self.count = 0
 		self.points = 0
@@ -53,7 +54,7 @@ class RainingWorld(World):
 		"""
 
 		self.add.margin(200, -500)
-		self.gravity = (0, 30)
+		self.gravity = (0, -10)
 
 		self.player = Boy()
 		self.player.gravity = (0, 0)
@@ -121,6 +122,8 @@ class RainingWorld(World):
 			randomize(self.shot_list, self.count, self.vel)
 
 		for shot in self.shot_list:
+			shot.gravity = self.gravity
+			shot.vel = self.shot_list[0].vel
 			new_pos = shot.pos - (shot.width / 2, shot.height / 2)
 			screen.blit(shot.body_pygame.convert_alpha(), 
 									new_pos)
