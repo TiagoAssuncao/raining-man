@@ -51,6 +51,8 @@ setup(
             },
 
         install_requires=[
+            'FGAme',
+            'pygame',
             ],
         extras_require={
             'dev': [
