@@ -71,8 +71,8 @@ def randomize(shot_list, count, world_vel):
         from .shot import Shot
         shot = Shot()
         count = count + 1
-        randomizer = random.randint(-100, 100)
-        shot.x = randomizer + random.randint(270, 420)
+        randomizer = random.randint(10, 90)
+        shot.x = 240 + (randomizer + (100 * (i)))
         shot.y = shot.y + random.randint(-80, -50) # TO NOT GET TOGETHER
         shot_list.append(shot)
         shot.vel = world_vel
