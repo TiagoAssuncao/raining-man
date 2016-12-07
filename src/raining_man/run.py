@@ -9,4 +9,4 @@ from .menu import *
 
 
 def start():
-	new_game()
+    new_game()

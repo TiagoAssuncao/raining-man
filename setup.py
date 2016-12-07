@@ -24,7 +24,7 @@ __author__ = 'Gustavo Lopes de Brito'
 setup(
         # Basic info
         name='raining-man',
-        version='0.1.49',
+        version='0.1.52',
         author='Gustavo Lopes de Brito',
         author_email='gustavo.ldbrito@gmail.com',
         url='https://github.com/fis-jogos/ep1-rainining-man',
