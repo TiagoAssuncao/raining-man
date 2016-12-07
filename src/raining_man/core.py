@@ -46,8 +46,6 @@ class Physics(object):
 
     @staticmethod
     def colision(shot, player):
-        # SE o player ta entre a posição + 5 da pedra e entre
-        # a posição inferior verifica se colide em x.
         shot_rect = Physics.get_surface_rectangle(shot)
         player_rect = Physics.get_surface_rectangle(player)
 
